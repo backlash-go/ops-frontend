@@ -1,4 +1,3 @@
-# ops-frontend
 
 ## Project setup
 ```
