@@ -2,9 +2,7 @@
   <div class="navbar">
 
     navbar index
-<!--    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>-->
 
-<!--    <breadcrumb class="breadcrumb-container"/>-->
   </div>
 </template>
 

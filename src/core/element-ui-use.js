@@ -25,7 +25,6 @@ import {
   Dropdown,
   Pagination,
   Upload,
-  Notification,
   MessageBox,
   Col,
   Row,
@@ -123,3 +122,6 @@ Vue.use(Select)
   .use(TimeSelect)
   .use(Popconfirm)
   .use(ColorPicker)
+
+
+

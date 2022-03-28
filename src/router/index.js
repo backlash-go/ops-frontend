@@ -1,9 +1,10 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-import Layout from '@/layout'
+import Layout from '@/layout';
+import Test from "@/views/test/Test.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -20,22 +21,27 @@ const routes = [
     ]
   },
   {
+    path: '/test',
+    name: 'Test',
+    component: Test
+  },
+  {
     path: '/form',
     component: Layout,
-    meta: {title: 'Form', icon: 'form', roles: ['ops']},
+    meta: {title: 'Form', icon: 'form', roles: ['devops']},
     children: [
       {
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: {title: 'Form', icon: 'form', roles: ['ops']}
+        meta: {title: 'Form', icon: 'form', roles: ['devops']}
       }
     ]
   },
-]
+];
 
 const router = new VueRouter({
   routes
-})
+});
 
-export default router
+export default router;
