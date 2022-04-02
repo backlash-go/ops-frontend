@@ -8128,10 +8128,10 @@ vue-ls@^3.2.2:
   dependencies:
     opencollective-postinstall "^2.0.2"
 
-vue-router@^3.2.0:
-  version "3.5.3"
-  resolved "https://registry.npmmirror.com/vue-router/-/vue-router-3.5.3.tgz#041048053e336829d05dafacf6a8fb669a2e7999"
-  integrity sha512-FUlILrW3DGitS2h+Xaw8aRNvGTwtuaxrRkNSHWTizOfLUie7wuYwezeZ50iflRn8YPV5kxmU2LQuu3nM/b3Zsg==
+vue-router@3.0.6:
+  version "3.0.6"
+  resolved "https://registry.npmmirror.com/vue-router/-/vue-router-3.0.6.tgz#2e4f0f9cbb0b96d0205ab2690cfe588935136ac3"
+  integrity sha512-Ox0ciFLswtSGRTHYhGvx2L44sVbTPNS+uD2kRISuo8B39Y79rOo0Kw0hzupTmiVtftQYCZl87mwldhh2L9Aquw==
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.3"

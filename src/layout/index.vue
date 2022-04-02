@@ -1,11 +1,15 @@
 <template>
-  <div>layout index
+  <div :class="classObj" class="app-wrapper">
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
 
-    <sidebar></sidebar>
+    <sidebar class="sidebar-container"/>
+    <div class="main-container">
+      <div :class="{'fixed-header':fixedHeader}">
+        <navbar/>
+      </div>
+      <app-main/>
+    </div>
 
-    <navbar></navbar>
-
-    <app-main></app-main>
 
   </div>
 
@@ -15,7 +19,11 @@
 <script>
 
 
-import {AppMain,Sidebar,Navbar} from "@/layout/components";
+import {AppMain, Sidebar, Navbar} from "@/layout/components";
+
+import ResizeMixin from './mixin/ResizeHandler';
+
+import {mapState} from 'vuex';
 
 
 export default {
@@ -25,10 +33,29 @@ export default {
     Sidebar,
     Navbar
   },
-  data() {
-    return {
-      className: "jdhsfk"
-    };
+  mixins: [ResizeMixin],
+  computed: {
+    ...mapState({
+      sidebar: state => state.app.sidebar,
+      device: state => state.app.device,
+      fixedHeader: state => state.settings.fixedHeader,
+      needTagsView: state => state.settings.tagsView,
+      showSettings: state => state.settings.showSettings,
+    }),
+    classObj() {
+      return {
+        hideSidebar: !this.sidebar.opened,
+        openSidebar: this.sidebar.opened,
+        withoutAnimation: this.sidebar.withoutAnimation,
+        mobile: this.device === 'mobile'
+      };
+    }
+
+  },
+  methods: {
+    handleClickOutside() {
+      this.$store.dispatch('app/closeSideBar', {withoutAnimation: false});
+    }
   }
 };
 </script>
