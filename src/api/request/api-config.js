@@ -29,6 +29,20 @@ service.interceptors.response.use(
   response => {
     const res = response.data;
     const message = response.data.msg;
+    const code = response.data.code;
+
+    if (code === 20000) {
+      return response.data;
+    } else if (code === 40003) {
+      this.$message({
+        message: '登陆超时，需要重新登陆',
+        type: 'error',
+        offset: 200,
+        onClose: () => {
+          console.log("cloase");
+        }
+      });
+    }
   }
 );
 

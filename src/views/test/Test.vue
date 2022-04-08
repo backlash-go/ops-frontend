@@ -19,9 +19,19 @@
       device + "sad"
     }}
 
-    <div>{{name}}</div>
+    <div>{{ name }}</div>
 
-    <div>{{fixedHeader}}</div>
+    <div>{{ fixedHeader }}</div>
+
+
+    <div>-----------------------------</div>
+
+
+    <current-user>
+      <template v-slot:default="slotProps">
+        {{ slotProps.user.firstName }}
+      </template>
+    </current-user>
   </div>
 
 </template>
@@ -40,9 +50,14 @@ import {reqGet} from "@/api/request/api-request.js";
 import testMixin from "@/views/test/mixin/testMixin.js";
 import {mapState} from 'vuex';
 import {constantRoutes} from "@/router";
+import CurrentUser from "@/views/test/current-user.vue";
+
+import { Message } from 'element-ui';
+
 
 export default {
   name: 'Test',
+  components: {CurrentUser},
   mixins: [testMixin],
   computed: {
     tk() {
@@ -53,10 +68,10 @@ export default {
       // fixedHeader: state => state.settings.fixedHeader,
     }),
     name() {
-      return "sssss"
+      return "sssss";
     },
     fixedHeader() {
-      return this.$store.state.settings.fixedHeader
+      return this.$store.state.settings.fixedHeader;
     },
   },
   methods: {
@@ -95,7 +110,18 @@ export default {
 
 
     console.log(this.$route.matched.filter(item => item.meta && item.meta.title));
+
+    this.$message({
+      message: '登陆超时，需要重新登陆',
+      type: 'error',
+      offset: 200,
+      onClose: () => {
+        console.log("cloase");
+      }
+    });
   }
+
+
 
 };
 </script>

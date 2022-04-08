@@ -14,8 +14,13 @@ class UserApi {
     return reqPost('/api/ldap/user/login', data);
   }
 
-  LogOut(data) {
-    return reqPost('/api/ldap/user/logout', data);
+  logOut() {
+    return reqPost('/api/ldap/user/logout');
+  }
+
+
+  createAccount(data) {
+    return reqPost('/api/ldap/user/create',data)
   }
 
 }

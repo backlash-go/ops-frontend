@@ -40,7 +40,8 @@ import Hamburger from '@/components/Hamburger';
 export default {
   data() {
     return {
-      avatar: "https://xcx.alicdn2.hexiaoxiang.com/web_static/logo_m.png"
+      // avatar: "https://xcx.alicdn2.hexiaoxiang.com/web_static/logo_m.png"
+      avatar: "https://sc2.hexiaoxiang.com/common/miniApp/image/vip/avatarDefault.png"
     }
   },
   components: {
