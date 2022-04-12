@@ -14,6 +14,11 @@ import '@/styles/index.scss'; // global css
 import 'normalize.css/normalize.css';
 
 
+//import permission
+import './permission';
+
+
+
 //按需要导入UI 组件
 import '@/core/element-ui-use';
 

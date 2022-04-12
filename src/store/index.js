@@ -7,14 +7,14 @@ import app from './modules/app.js';
 
 import settings from "@/store/modules/settings.js";
 
-import getters from "@/store/modules/getters.js";
+import getters from './getters';
 
 
 import permission from "@/store/modules/permission.js";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store =  new Vuex.Store({
   modules: {
     user,
     app,
@@ -23,3 +23,7 @@ export default new Vuex.Store({
   },
   getters
 });
+
+
+
+export default store

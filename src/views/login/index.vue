@@ -13,7 +13,7 @@
         </span>
         <el-input
             ref="username"
-            v-model.trim="loginForm.username"
+            v-model.trim="loginForm.cn"
             placeholder="Username"
             name="username"
             type="text"
@@ -29,7 +29,7 @@
         <el-input
             :key="passwordType"
             ref="password"
-            v-model.trim="loginForm.password"
+            v-model.trim="loginForm.user_password"
             :type="passwordType"
             placeholder="Password"
             name="password"
@@ -59,6 +59,8 @@ import {timeFix} from '@/utils/util';
 
 export default {
   name: 'Login',
+  created() {
+  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value === '') {
@@ -76,12 +78,12 @@ export default {
     };
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        cn: 'admin',
+        user_password: '111111'
       },
       loginRules: {
-        username: [{required: true, trigger: 'blur', validator: validateUsername}],
-        password: [{required: true, trigger: 'blur', validator: validatePassword}]
+        cn: [{required: true, trigger: 'blur', validator: validateUsername}],
+        user_password: [{required: true, trigger: 'blur', validator: validatePassword}]
       },
       loading: false,
       passwordType: 'password',
@@ -108,12 +110,15 @@ export default {
       });
     },
     handleLogin() {
+
+
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          console.log('1 1!!');
+
           this.loading = true;
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({path: this.redirect || '/'});
-
             this.loading = false;
           }).catch(() => {
             this.loading = false;
@@ -124,23 +129,23 @@ export default {
         }
       });
     },
-    login(type) {
-      if (type === 'dingdingTest') {
-
-        this.$store.dispatch('user/testLogin').then(() => {
-
-          this.$router.push({path: this.redirect || '/'});
-          // 延迟 1 秒显示欢迎信息
-          setTimeout(() => {
-            this.$notification.success({
-              message: '欢迎',
-              description: `${timeFix()}，欢迎回来`,
-            });
-          }, 1000);
-        });
-      }
-
-    },
+    // login(type) {
+    //   if (type === 'dingdingTest') {
+    //
+    //     this.$store.dispatch('user/testLogin').then(() => {
+    //
+    //       this.$router.push({path: this.redirect || '/'});
+    //       // 延迟 1 秒显示欢迎信息
+    //       setTimeout(() => {
+    //         this.$notification.success({
+    //           message: '欢迎',
+    //           description: `${timeFix()}，欢迎回来`,
+    //         });
+    //       }, 1000);
+    //     });
+    //   }
+    //
+    // },
     parseURL(url) {
       var a = document.createElement('a');
       a.href = url;

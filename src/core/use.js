@@ -4,7 +4,7 @@ import Vue from 'vue';
 import VueStorage from 'vue-ls';
 
 
-// import VueClipboard from 'vue-clipboard2';
+import VueClipboard from 'vue-clipboard2';
 
 
 // vue-ls options
@@ -15,11 +15,9 @@ const storageOptions = {
   storage: 'local' // storage name session, local, memory
 };
 
+
+VueClipboard.config.autoSetContainer = true;
+
 Vue.use(VueStorage, storageOptions);
-
-
-// VueClipboard.config.autoSetContainer = true;
-//
-// Vue.use(VueStorage, storageOptions);
-// Vue.use(VueClipboard);
+Vue.use(VueClipboard);
 

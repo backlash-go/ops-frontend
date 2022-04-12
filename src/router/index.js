@@ -21,6 +21,7 @@ export const constantRoutes = [
     path: '/',
     name: 'Layout',
     component: Layout,
+    redirect: 'dashboard',
     children: [
       {
         path: 'dashboard',
@@ -30,12 +31,12 @@ export const constantRoutes = [
       },
     ]
   },
-  {
-    path: '/test',
-    name: 'Test',
-    component: Test,
-    meta: {title: 'Test', icon: 'Test', roles: ['devops']},
-  },
+  // {
+  //   path: '/test',
+  //   name: 'Test',
+  //   component: Test,
+  //   meta: {title: 'Test', icon: 'Test', roles: ['devops']},
+  // },
 ];
 
 

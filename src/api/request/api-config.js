@@ -4,6 +4,11 @@ import axios from 'axios';
 import store from "@/store";
 
 
+import {Message} from 'element-ui';
+import {ACCESS_TOKEN} from "@/store/mutation-types.js";
+import Vue from 'vue';
+
+
 const service = axios.create(
   {
     baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -14,8 +19,11 @@ const service = axios.create(
 
 service.interceptors.request.use(
   config => {
-    if (store.getters.token) {
-      config.headers.Authorization = store.getters.token;
+
+    const token = Vue.ls.get(ACCESS_TOKEN);
+
+    if (token) {
+      config.headers.Authorization = token;
     }
     return config;
   },
@@ -30,20 +38,26 @@ service.interceptors.response.use(
     const res = response.data;
     const message = response.data.msg;
     const code = response.data.code;
-
     if (code === 20000) {
       return response.data;
     } else if (code === 40003) {
-      this.$message({
-        message: '登陆超时，需要重新登陆',
-        type: 'error',
-        offset: 200,
-        onClose: () => {
-          console.log("cloase");
-        }
+      Message({
+        message: message,
+        type: "warning",
+        offset: 100
       });
+    } else if (code >= 30001 && code <= 30020) {
+
+      Message({
+        message: message,
+        type: "warning",
+        offset: 100
+      });
+      return Promise.reject({...response, message});
     }
   }
 );
 
-export default service;
+
+export default service
+

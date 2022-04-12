@@ -55,7 +55,7 @@ export default {
       return !this.sidebar.opened
     },
     routes() {
-      return constantRoutes
+      return this.$store.state.permission.routes;
     },
   }
 };
