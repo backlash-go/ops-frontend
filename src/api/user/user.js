@@ -1,4 +1,5 @@
-import {reqGet, reqPost} from "@/api/request/api-request.js";
+import {reqGet, reqPost, reqDelete} from "@/api/request/api-request.js";
+import da from "element-ui/src/locale/lang/da.js";
 
 
 class UserApi {
@@ -7,7 +8,6 @@ class UserApi {
   getInfo(params = {}) {
     return reqGet('/api/ldap/user/info', params);
   }
-
 
 
   Login(data) {
@@ -20,8 +20,21 @@ class UserApi {
 
 
   createAccount(data) {
-    return reqPost('/api/ldap/user/create',data)
+    return reqPost('/api/ldap/user/create', data);
   }
+
+  modifyPass(data) {
+    return reqPost('/api/ldap/user/modify-password', data);
+  }
+
+  getUserList(params) {
+    return reqGet('/api/ldap/user/list-info', params);
+  }
+
+  deleteUser(data) {
+    return reqDelete('/api/ldap/user/delete', data);
+  }
+
 
 }
 

@@ -18,6 +18,9 @@ import 'normalize.css/normalize.css';
 import './permission';
 
 
+import Pagination from '@/components/Pagination/Index.vue';
+
+Vue.component('Pagination', Pagination);
 
 //按需要导入UI 组件
 import '@/core/element-ui-use';

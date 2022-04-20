@@ -32,6 +32,24 @@
         {{ slotProps.user.firstName }}
       </template>
     </current-user>
+
+
+
+    <div>++++++++++++++++++++++++</div>
+
+
+    <el-pagination
+    :background="background"
+    :page-size.sync="pageSize"
+    :page-sizes="pageSizes"
+    :layout="layout"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    >
+    </el-pagination>
+
+
+
   </div>
 
 </template>
@@ -44,7 +62,6 @@ import Vue from 'vue';
 import Cookies from 'js-cookie';
 import {Notification} from 'element-ui';
 
-import UserApi from '@/api/user/user';
 import {reqGet} from "@/api/request/api-request.js";
 
 import testMixin from "@/views/test/mixin/testMixin.js";
@@ -55,7 +72,40 @@ import CurrentUser from "@/views/test/current-user.vue";
 import { Message } from 'element-ui';
 
 
+import UserApi from '@/api/user/user.js'
+
+
 export default {
+  props: {
+    // total: {
+    //   required: true,
+    //   type: Number
+    // },
+    page: {
+      type: Number,
+      default: 1
+    },
+    limit: {
+      type: Number,
+      default: 20
+    },
+    pageSizes: {
+      type: Array,
+      default() {
+        return [10, 20, 30];
+      }
+    },
+    layout: {
+      type: String,
+      default: 'total, sizes, prev, pager, next, jumper'
+    },
+    background: {
+      type: Boolean,
+      default: true
+    }
+  },
+
+
   name: 'Test',
   components: {CurrentUser},
   mixins: [testMixin],
@@ -73,8 +123,34 @@ export default {
     fixedHeader() {
       return this.$store.state.settings.fixedHeader;
     },
+
+    currentPage: {
+      get() {
+        return this.page;
+      },
+      set(val) {
+        console.log("aaaa")
+        this.$emit('update:page', val);
+      }
+    },
+    pageSize: {
+      get() {
+        return this.limit;
+      },
+      set(val) {
+        this.$emit('update:limit', val);
+      }
+    }
   },
   methods: {
+
+    handleCurrentChange(v) {
+      console.log(v)
+    },
+
+    handleSizeChange(v) {
+      console.log(v)
+    },
     test() {
       // Vue.ls.set(
       //     "Access-Token",
@@ -94,7 +170,10 @@ export default {
     requestAxios() {
       console.log("sadsads");
 
-      reqGet('/api/get/userInfo', {name: "xxa", age: 200}).request();
+      // reqGet('/api/get/userInfo', {name: "xxa", age: 200}).request();
+      UserApi.modifyPass({password: "test10",cn: "test10"})
+
+
     }
   },
   created() {
@@ -111,14 +190,6 @@ export default {
 
     console.log(this.$route.matched.filter(item => item.meta && item.meta.title));
 
-    this.$message({
-      message: '登陆超时，需要重新登陆',
-      type: 'error',
-      offset: 200,
-      onClose: () => {
-        console.log("cloase");
-      }
-    });
   }
 
 

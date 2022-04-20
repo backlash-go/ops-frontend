@@ -1,20 +1,17 @@
 export const ROLE_TYPE = [
   {
-    value: 'admin',
+    value: 1,
     label: 'admin'
   }, {
-    value: 'devops',
+    value: 2,
     label: 'devops'
   }, {
-    value: 'RD',
+    value: 3,
     label: 'RD'
   }, {
-    value: 'QA',
+    value: 4,
     label: 'QA'
-  }, {
-    value: 'guest',
-    label: 'guest'
-  }
+  },
 ];
 
 
@@ -29,4 +26,8 @@ export const EMPLOYEE_TYPE = [
     value: 'spug',
     label: 'spug'
   },
-]
+  {
+    value: 'gamer',
+    label: 'gamer'
+  },
+];

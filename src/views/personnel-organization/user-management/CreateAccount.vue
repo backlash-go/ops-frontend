@@ -54,7 +54,7 @@
 
         <el-form-item label-width="120px" label="员工角色" prop="roles">
 
-          <el-select v-model.trim="createAccountForm.roles"
+          <el-select v-model.trim="createAccountForm.role"
                      style="width: 100%"
                      multiple
                      placeholder="请选择员工角色">
@@ -97,7 +97,7 @@ export default {
         given_name: '',
         display_name: '',
         employee_type: ['other'],
-        roles: ['guest'],
+        role: [],
         user_password: ''
       },
       createAccountFormRules: {
@@ -111,25 +111,22 @@ export default {
         ],
         mail: [
           {required: true, message: '请输入邮箱', trigger: 'blur'},
-          {min: 3, max: 28, message: '长度在 3 到 9 个字符', trigger: 'blur'}
+          {min: 3, max: 28, message: '长度在 1 到 18 个字符', trigger: 'blur'}
         ],
         given_name: [
           {required: true, message: '请输入名', trigger: 'blur'},
-          {min: 3, max: 8, message: '长度在 3 到 9 个字符', trigger: 'blur'}
+          {min: 1, max: 18, message: '长度在 1 到 18 个字符', trigger: 'blur'}
         ],
         display_name: [
           {required: true, message: '请输入真实全名', trigger: 'blur'},
-          {min: 3, max: 8, message: '长度在 3 到 9 个字符', trigger: 'blur'}
+          {min: 1, max: 18, message: '长度在 1 到 18 个字符', trigger: 'blur'}
         ],
         employee_type: [
           {type: 'array', required: true, message: '请至少选择一个员工类型', trigger: 'change'}
         ],
-        roles: [
-          {type: 'array', required: true, message: '请至少选择一个角色', trigger: 'change'}
-        ],
         user_password: [
           {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 8, max: 18, message: '长度在 8 到 18 个字符', trigger: 'blur'}
+          {min: 8, max: 28, message: '长度在 8 到 28 个字符', trigger: 'blur'}
 
         ],
       }

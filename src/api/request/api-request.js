@@ -45,3 +45,24 @@ export const reqPut = (url, data, config = {}) => {
     }
   };
 };
+
+
+export const reqDelete = (url, data, config = {}) => {
+  const method = 'delete'
+  return request({
+    url: url,
+    method,
+    data,
+    ...config
+  })
+}
+
+// export const reqPut = (url, data, config = {}) => {
+//   const method = 'put'
+//   return request({
+//     url,
+//     method,
+//     data,
+//     config
+//   })
+// }

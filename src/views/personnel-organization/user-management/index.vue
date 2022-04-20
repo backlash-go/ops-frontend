@@ -2,14 +2,16 @@
 
 
   <div>
-
     <el-card class shadow="always">
 
       <div class="event-table-search">
         <div class="event-table-search-left">
-          <el-input placeholder="请输入用户名" v-model="searchContent" class="input-with-select">
-            <el-button slot="prepend" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入用户名" v-model="searchContent" class="input-with-select"
+                    @keyup.enter.native="searchUser">
+            <!--            <el-button slot="prepend" icon="el-icon-search"></el-button>-->
           </el-input>
+          <el-button class="search-button" @click="searchUser" type="primary">查询</el-button>
+
         </div>
 
         <div class="event-table-search-right">
@@ -51,7 +53,7 @@
 
         <el-table-column label="角色" align="center">
           <template slot-scope="{row}">
-            {{ row.roles }}
+            {{ row.role }}
           </template>
         </el-table-column>
 
@@ -61,15 +63,22 @@
             fixed="right"
             label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">重置密码</el-button>
+            <el-button type="text" size="small" @click="handleResetPassword(scope.row)">重置密码</el-button>
             <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
 
 
+      <Pagination
+          :total="pagination.total"
+          :limit.sync="pagination.page_size"
+          @pagination="changePage"
+          :page.sync="pagination.page">
+      </Pagination>
+
       <create-account ref="createAccount" @confirm="createAccount"></create-account>
+      <reset-password ref="resetPassword" @confirm="resetPassword"></reset-password>
 
     </el-card>
   </div>
@@ -80,45 +89,98 @@
 import UserApi from '@/api/user/user.js';
 
 import CreateAccount from "@/views/personnel-organization/user-management/CreateAccount.vue";
+import {Message} from "element-ui";
+import ResetPassword from "@/views/personnel-organization/user-management/ResetPassword.vue";
 
 export default {
   name: "index",
-  components: {CreateAccount},
+  components: {ResetPassword, CreateAccount},
   data() {
     return {
       searchContent: "",
-      tableData: [{
-        user_name: 'xixb',
-        display_name: '席贤斌',
-        email: 'xixb@qq.com',
-        roles: ['admin', 'guest']
-      }, {
-        user_name: 'xixb',
-        display_name: '席贤斌',
-        email: 'xixb@qq.com',
-        roles: ['admin', 'guest']
-
-
-      }, {
-        user_name: 'xixb',
-        display_name: '席贤斌',
-        email: 'xixb@qq.com',
-        roles: ['admin', 'guest']
-
-      }, {
-        user_name: 'xixb',
-        display_name: '席贤斌',
-        email: 'xixb@qq.com',
-        roles: ['admin', 'guest']
-
-      }],
-      isLoading: false
-
+      pagination: {
+        page: 1,
+        page_size: 10,
+        total: 0,
+      },
+      tableData: [],
+      isLoading: false,
+      resetPasswordCn: ''
     };
   },
   methods: {
+
+    handleResetPassword(row) {
+      this.resetPasswordCn = row.user_name;
+      this.$refs.resetPassword.show();
+
+    },
+    resetPassword(form, loading, done) {
+      console.log(form);
+      console.log(loading);
+      console.log(done);
+      UserApi.modifyPass({password: form, cn: this.resetPasswordCn}).request()
+          .then(() => {
+            done();
+            Message({
+              message: "修改密码成功",
+              type: "success",
+              offset: 100,
+              duration: 3000,
+            });
+          }).catch(() => {
+        loading();
+      });
+
+    },
+
     handleClick(row) {
-      console.log(row);
+      this.$confirm('此操作将永久删除该用户?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        UserApi.deleteUser({cn: row.user_name}).then(() => {
+              this.getList();
+              Message({
+                message: "删除用户成功",
+                type: "success",
+                offset: 100,
+                duration: 3500,
+              });
+
+            }
+        ).catch(error => {
+          console.log(error);
+        });
+
+      }).catch(() => {
+      });
+
+    },
+    getList() {
+      this.isLoading = true;
+      let params = {
+        search_name: this.searchContent,
+        page: this.pagination.page,
+        page_size: this.pagination.page_size
+      };
+      UserApi.getUserList(params).request().then(
+          res => {
+            const {items = [], total_count} = res.data;
+            this.tableData = items;
+            this.pagination.total = total_count;
+            this.isLoading = false;
+          }
+      ).catch(() => {
+        this.isLoading = false;
+      });
+    },
+    changePage({page, limit}) {
+      console.log("changePage");
+      this.pagination.page = page;
+      this.pagination.page_size = limit;
+      this.getList();
     },
     createAccount(form, loading, done) {
       UserApi.createAccount(form).request()
@@ -128,11 +190,16 @@ export default {
           }).catch(() => {
         loading();
       });
+    },
+    searchUser() {
+      console.log("aa");
+      this.getList();
     }
+
   },
 
   created() {
-    // console.log(this.$refs.createAccount.$refs)
+    this.getList();
   }
 };
 </script>
@@ -145,10 +212,21 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 22px;
+
+  .event-table-search-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-button {
+    margin-left: 20px;
+  }
 }
 
 
 .el-button--small {
   font-size: 14px;
 }
+
+
 </style>

@@ -44,14 +44,22 @@ service.interceptors.response.use(
       Message({
         message: message,
         type: "warning",
-        offset: 100
+        offset: 100,
+        duration: 4500,
+        onClose: () => {
+          store.dispatch('user/logout')
+            .then(() => {
+              window.location.reload()
+            })
+        }
       });
     } else if (code >= 30001 && code <= 30020) {
 
       Message({
         message: message,
         type: "warning",
-        offset: 100
+        offset: 100,
+        duration: 4500,
       });
       return Promise.reject({...response, message});
     }

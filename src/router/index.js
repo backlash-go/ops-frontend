@@ -60,6 +60,18 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/password',
+    component: Layout,
+    children: [
+      {
+        path: 'modify',
+        name: 'modify',
+        component: () => import('@/views/modifyPass/index.vue'),
+        meta: {title: '密码修改', icon: 'password', roles: ['guest']}
+      }
+    ]
+  },
+  {
     path: '/form',
     component: Layout,
     meta: {title: 'Form', icon: 'form', roles: ['devops']},

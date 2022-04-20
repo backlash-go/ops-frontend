@@ -78,8 +78,8 @@ export default {
     };
     return {
       loginForm: {
-        cn: 'admin',
-        user_password: '111111'
+        cn: '',
+        user_password: ''
       },
       loginRules: {
         cn: [{required: true, trigger: 'blur', validator: validateUsername}],
