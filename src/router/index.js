@@ -51,11 +51,11 @@ export const asyncRoutes = [
         component: () => import('@/views/personnel-organization/user-management/index.vue'),
         meta: {title: '用户管理', icon: 'user', roles: ['admin']}
       },
-      {
-        path: 'user-test',
-        component: () => import('@/views/test/Test.vue'),
-        meta: {title: 'test', icon: 'user', roles: ['admin']}
-      },
+      // {
+      //   path: 'user-test',
+      //   component: () => import('@/views/test/Test.vue'),
+      //   meta: {title: 'test', icon: 'user', roles: ['admin']}
+      // },
 
     ]
   },
@@ -72,34 +72,21 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/form',
+    path: '/power-management',
     component: Layout,
-    meta: {title: 'Form', icon: 'form', roles: ['devops']},
+    meta: {title: '权限管理', icon: 'tree', roles: ['devops','admin']},
     children: [
       {
         path: 'index',
         name: 'Form1',
         component: () => import('@/views/form/index'),
-        meta: {title: 'Form1', icon: 'form', roles: ['devops']}
+        meta: {title: '接口管理', icon: 'form', roles: ['devops','admin']}
       },
       {
         path: 'index2',
         name: 'Form2',
         component: () => import('@/views/form/index2'),
-        meta: {title: 'Form2', icon: 'form', roles: ['devops']}
-      }
-    ]
-  },
-  {
-    path: '/form2',
-    component: Layout,
-    meta: {title: 'Form2', icon: 'form', roles: ['RD']},
-    children: [
-      {
-        path: 'index2',
-        name: 'Form21',
-        component: () => import('@/views/form/index'),
-        meta: {title: 'Form', icon: 'form', roles: ['RD']}
+        meta: {title: '授权管理', icon: 'form', roles: ['devops','admin']}
       }
     ]
   },

@@ -45,7 +45,7 @@ service.interceptors.response.use(
         message: message,
         type: "warning",
         offset: 100,
-        duration: 4500,
+        duration: 3500,
         onClose: () => {
           store.dispatch('user/logout')
             .then(() => {
@@ -59,7 +59,7 @@ service.interceptors.response.use(
         message: message,
         type: "warning",
         offset: 100,
-        duration: 4500,
+        duration: 3500,
       });
       return Promise.reject({...response, message});
     }

@@ -10,24 +10,24 @@
           :rules="createAccountFormRules">
 
         <el-form-item label-width="120px" label="用户名" prop="cn">
-          <el-input v-model="createAccountForm.cn"></el-input>
+          <el-input v-model="createAccountForm.cn" placeholder="xixb"></el-input>
         </el-form-item>
 
 
         <el-form-item label-width="120px" label="姓氏" prop="sn">
-          <el-input v-model="createAccountForm.sn"></el-input>
+          <el-input v-model="createAccountForm.sn" placeholder="xi"></el-input>
         </el-form-item>
 
         <el-form-item label-width="120px" label="邮箱" prop="mail">
-          <el-input v-model="createAccountForm.mail"></el-input>
+          <el-input v-model="createAccountForm.mail" placeholder="xixb@corp.langzhihe.com"></el-input>
         </el-form-item>
 
         <el-form-item label-width="120px" label="名字" prop="given_name">
-          <el-input v-model="createAccountForm.given_name"></el-input>
+          <el-input v-model="createAccountForm.given_name" placeholder="xianbin"></el-input>
         </el-form-item>
 
         <el-form-item label-width="120px" label="全名" prop="display_name">
-          <el-input v-model="createAccountForm.display_name"></el-input>
+          <el-input v-model="createAccountForm.display_name" placeholder="席贤斌"></el-input>
         </el-form-item>
 
 
@@ -57,7 +57,7 @@
           <el-select v-model.trim="createAccountForm.role"
                      style="width: 100%"
                      multiple
-                     placeholder="请选择员工角色">
+                     placeholder="不选默认guest角色">
             <el-option
                 v-for="item in ROLE_TYPE"
                 :key="item.value"
@@ -150,8 +150,8 @@ export default {
         if (valid) {
           const form = {
             ...this.createAccountForm,
-          }
-          this.$emit('confirm',form,this.loading,this.closeDialog)
+          };
+          this.$emit('confirm', form, this.loading, this.closeDialog);
         }
       });
 

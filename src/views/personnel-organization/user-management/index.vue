@@ -50,6 +50,13 @@
           </template>
         </el-table-column>
 
+        <el-table-column label="员工类型" align="center">
+          <template slot-scope="{row}">
+            {{ row.employee_type }}
+          </template>
+        </el-table-column>
+
+
 
         <el-table-column label="角色" align="center">
           <template slot-scope="{row}">
@@ -69,14 +76,14 @@
         </el-table-column>
       </el-table>
 
-
+      <div class="pagination">
       <Pagination
           :total="pagination.total"
           :limit.sync="pagination.page_size"
           @pagination="changePage"
           :page.sync="pagination.page">
       </Pagination>
-
+      </div>
       <create-account ref="createAccount" @confirm="createAccount"></create-account>
       <reset-password ref="resetPassword" @confirm="resetPassword"></reset-password>
 
@@ -200,6 +207,7 @@ export default {
 
   created() {
     this.getList();
+    console.log(process.env);
   }
 };
 </script>
@@ -226,6 +234,11 @@ export default {
 
 .el-button--small {
   font-size: 14px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
 }
 
 
