@@ -6,7 +6,7 @@
 
       <div class="event-table-search">
         <div class="event-table-search-left">
-          <el-input placeholder="请输入用户名" v-model="searchContent" class="input-with-select"
+          <el-input placeholder="请输入接口路径" v-model="searchContent" class="input-with-select"
                     @keyup.enter.native="searchUser">
             <!--            <el-button slot="prepend" icon="el-icon-search"></el-button>-->
           </el-input>
@@ -23,7 +23,6 @@
       <!--      table-->
 
       <el-table
-
           v-loading="isLoading"
           border
           stripe
@@ -69,7 +68,6 @@
             fixed="right"
             label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="handleEditUser(scope.row)">编辑</el-button>
             <el-button type="text" size="small" @click="handleResetPassword(scope.row)">重置密码</el-button>
             <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
           </template>
@@ -86,8 +84,6 @@
       </div>
       <create-account ref="createAccount" @confirm="createAccount"></create-account>
       <reset-password ref="resetPassword" @confirm="resetPassword"></reset-password>
-      <edit-user-info :Cname="userName" ref="editUserInfo" @confirm="editUserInfo"></edit-user-info>
-
 
     </el-card>
   </div>
@@ -100,15 +96,12 @@ import UserApi from '@/api/user/user.js';
 import CreateAccount from "@/views/personnel-organization/user-management/CreateAccount.vue";
 import {Message} from "element-ui";
 import ResetPassword from "@/views/personnel-organization/user-management/ResetPassword.vue";
-import EditUserInfo from "@/views/personnel-organization/user-management/EditUserInfo.vue";
-
 
 export default {
   name: "index",
-  components: {EditUserInfo, ResetPassword, CreateAccount},
+  components: {ResetPassword, CreateAccount},
   data() {
     return {
-      userName: '',
       searchContent: "",
       pagination: {
         page: 1,
@@ -122,14 +115,10 @@ export default {
   },
   methods: {
 
-    handleEditUser(row) {
-      this.$refs.editUserInfo.show();
-      this.$refs.editUserInfo.getModifyUserInfo();
-      this.userName = row.user_name;
-    },
     handleResetPassword(row) {
       this.resetPasswordCn = row.user_name;
       this.$refs.resetPassword.show();
+
     },
     resetPassword(form, loading, done) {
       UserApi.modifyPass({password: form, cn: this.resetPasswordCn}).request()
@@ -200,36 +189,18 @@ export default {
             done();
             this.getList();
             this.$message.success('创建成功');
-          }).catch((error) => {
-        console.log(error);
+          }).catch(() => {
         loading();
       });
     },
-    editUserInfo(form, loading, done) {
-      UserApi.editUserInfo(form).request().then(() => {
-        done();
-        this.getList();
-        Message({
-          message: "更新用户信息成功",
-          type: "success",
-          offset: 100,
-          duration: 3000,
-        });
-      }).catch(error => {
-        console.log(error);
-        loading();
-      });
-    },
-
     searchUser() {
       this.getList();
-    },
-
+    }
 
   },
 
   created() {
-    this.getList();
+    // this.getList();
   }
 };
 </script>

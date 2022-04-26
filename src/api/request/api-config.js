@@ -45,7 +45,7 @@ service.interceptors.response.use(
         message: message,
         type: "warning",
         offset: 100,
-        duration: 3500,
+        duration: 2800,
         onClose: () => {
           store.dispatch('user/logout')
             .then(() => {
@@ -54,12 +54,11 @@ service.interceptors.response.use(
         }
       });
     } else if (code >= 30001 && code <= 30020) {
-
       Message({
         message: message,
         type: "warning",
         offset: 100,
-        duration: 3500,
+        duration: 2800,
       });
       return Promise.reject({...response, message});
     }

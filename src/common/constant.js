@@ -15,6 +15,26 @@ export const ROLE_TYPE = [
 ];
 
 
+export const ROLES_TYPE = [
+  {
+    value: 'admin',
+    label: 'admin'
+  }, {
+    value: 'devops',
+    label: 'devops'
+  }, {
+    value: 'RD',
+    label: 'RD'
+  }, {
+    value: 'QA',
+    label: 'QA'
+  }, {
+    value: 'guest',
+    label: 'guest'
+  },
+];
+
+
 export const EMPLOYEE_TYPE = [
   {
     value: 'other',

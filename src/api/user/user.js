@@ -35,6 +35,15 @@ class UserApi {
     return reqDelete('/api/ldap/user/delete', data);
   }
 
+  getModifyUserInfo(params) {
+    return reqGet('/api/ldap/user/modify/info', params);
+  }
+
+  editUserInfo(data) {
+    return reqPost('/api/ldap/user/modify/userInfo', data);
+
+  }
+
 
 }
 

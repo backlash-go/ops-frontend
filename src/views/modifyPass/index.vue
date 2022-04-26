@@ -4,12 +4,15 @@
   <div>
     <el-card class shadow="always">
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="密码" prop="pass">
+
+        <el-form-item label="新密码" prop="password">
           <el-input type="password" v-model.trim="ruleForm.password" autocomplete="off"></el-input>
         </el-form-item>
+
         <el-form-item label="确认密码" prop="checkPass">
           <el-input type="password" v-model.trim="ruleForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
+
         <el-form-item class="item-button">
           <el-button class="reset-item-button" type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button class="reset-item-button" @click="resetForm('ruleForm')">重置</el-button>
@@ -28,7 +31,6 @@ import {Message} from "element-ui";
 export default {
   name: "ModifyPassword",
   data() {
-
     const validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -60,10 +62,10 @@ export default {
       },
       rules: {
         password: [
-          {validator: validatePass, required: true, trigger: 'blur'}
+          {validator: validatePass,required: true, trigger: 'blur'}
         ],
         checkPass: [
-          {validator: validatePass2, required: true, trigger: 'blur'}
+          {validator: validatePass2, required: true,trigger: 'blur'}
         ],
       }
     };
@@ -76,9 +78,6 @@ export default {
             password: this.ruleForm.password,
             cn: this.$store.getters.name
           };
-
-          console.log(data);
-
           UserApi.modifyPass(data).request().then(() => {
             Message({
               message: "密码修改成功",
@@ -87,7 +86,6 @@ export default {
               duration: 3500,
             });
             this.$refs[formName].resetFields();
-
           }).catch(error => {
             this.$refs[formName].resetFields();
             console.log(error);
@@ -106,7 +104,7 @@ export default {
       });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs.ruleForm.resetFields();
     }
   }
 };

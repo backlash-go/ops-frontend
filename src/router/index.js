@@ -74,20 +74,14 @@ export const asyncRoutes = [
   {
     path: '/power-management',
     component: Layout,
-    meta: {title: '权限管理', icon: 'tree', roles: ['devops','admin']},
+    meta: {title: '权限管理', icon: 'tree', roles: ['devops', 'admin']},
     children: [
       {
-        path: 'index',
-        name: 'Form1',
-        component: () => import('@/views/form/index'),
-        meta: {title: '接口管理', icon: 'form', roles: ['devops','admin']}
+        path: 'Interface',
+        name: 'Interface',
+        component: () => import('@/views/power-management/index.vue'),
+        meta: {title: '接口管理', icon: 'form', roles: ['devops', 'admin']}
       },
-      {
-        path: 'index2',
-        name: 'Form2',
-        component: () => import('@/views/form/index2'),
-        meta: {title: '授权管理', icon: 'form', roles: ['devops','admin']}
-      }
     ]
   },
 ];
