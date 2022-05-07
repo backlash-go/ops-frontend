@@ -65,7 +65,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'modify',
-        name: 'modify',
+        name: 'Modify',
         component: () => import('@/views/modifyPass/index.vue'),
         meta: {title: '密码修改', icon: 'password', roles: ['guest']}
       }
@@ -77,7 +77,7 @@ export const asyncRoutes = [
     meta: {title: '权限管理', icon: 'tree', roles: ['devops', 'admin']},
     children: [
       {
-        path: 'Interface',
+        path: 'interface',
         name: 'Interface',
         component: () => import('@/views/power-management/index.vue'),
         meta: {title: '接口管理', icon: 'form', roles: ['devops', 'admin']}

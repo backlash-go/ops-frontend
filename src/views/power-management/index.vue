@@ -3,21 +3,19 @@
 
   <div>
     <el-card class shadow="always">
-
       <div class="event-table-search">
         <div class="event-table-search-left">
           <el-input placeholder="请输入接口路径" v-model="searchContent" class="input-with-select"
-                    @keyup.enter.native="searchUser">
+                    @keyup.enter.native="searchPower">
             <!--            <el-button slot="prepend" icon="el-icon-search"></el-button>-->
           </el-input>
-          <el-button class="search-button" @click="searchUser" type="primary">查询</el-button>
+          <el-button class="search-button" @click="searchPower" type="primary">查询</el-button>
 
         </div>
 
         <div class="event-table-search-right">
-          <el-button type="primary" @click="$refs.createAccount.show()">创建用户</el-button>
+          <el-button type="primary" @click="$refs.createApi.show()">添加接口</el-button>
         </div>
-
       </div>
 
       <!--      table-->
@@ -29,34 +27,21 @@
           :data="tableData"
           style="width: 100%">
 
-        <el-table-column label="用户名" align="center">
+        <el-table-column label="接口" align="center">
           <template slot-scope="{row}">
-            {{ row.user_name }}
+            {{ row.api }}
           </template>
         </el-table-column>
 
 
-        <el-table-column label="显示名" align="center">
+        <el-table-column label="接口说明" align="center">
           <template slot-scope="{row}">
-            {{ row.display_name }}
+            {{ row.name }}
           </template>
         </el-table-column>
 
 
-        <el-table-column label="邮箱" align="center">
-          <template slot-scope="{row}">
-            {{ row.email }}
-          </template>
-        </el-table-column>
-
-        <el-table-column label="员工类型" align="center">
-          <template slot-scope="{row}">
-            {{ row.employee_type }}
-          </template>
-        </el-table-column>
-
-
-        <el-table-column label="角色" align="center">
+        <el-table-column label="接口权限" align="center">
           <template slot-scope="{row}">
             {{ row.role }}
           </template>
@@ -68,7 +53,7 @@
             fixed="right"
             label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="handleResetPassword(scope.row)">重置密码</el-button>
+            <el-button type="text" size="small" @click="handleEditApi(scope.row)">编辑</el-button>
             <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -82,8 +67,8 @@
             :page.sync="pagination.page">
         </Pagination>
       </div>
-      <create-account ref="createAccount" @confirm="createAccount"></create-account>
-      <reset-password ref="resetPassword" @confirm="resetPassword"></reset-password>
+      <create-api ref="createApi" @confirm="createApi"></create-api>
+      <edit-api-info ref="editApiInfo" :permission-id="Id"  @confirm="editApiInfo"></edit-api-info>
 
     </el-card>
   </div>
@@ -92,16 +77,20 @@
 <script>
 
 import UserApi from '@/api/user/user.js';
+import PowerApi from '@/api/power/power.js';
 
 import CreateAccount from "@/views/personnel-organization/user-management/CreateAccount.vue";
 import {Message} from "element-ui";
 import ResetPassword from "@/views/personnel-organization/user-management/ResetPassword.vue";
+import CreateApi from "@/views/power-management/CreateApi.vue";
+import EditApiInfo from "@/views/power-management/EditApiInfo.vue";
 
 export default {
   name: "index",
-  components: {ResetPassword, CreateAccount},
+  components: {EditApiInfo, CreateApi, ResetPassword, CreateAccount},
   data() {
     return {
+      Id: 0,
       searchContent: "",
       pagination: {
         page: 1,
@@ -115,10 +104,15 @@ export default {
   },
   methods: {
 
+    handleEditApi(row) {
+      this.$refs.editApiInfo.show();
+      this.$refs.editApiInfo.getModifyApiInfo();
+      this.Id = row.id;
+    },
+
     handleResetPassword(row) {
       this.resetPasswordCn = row.user_name;
       this.$refs.resetPassword.show();
-
     },
     resetPassword(form, loading, done) {
       UserApi.modifyPass({password: form, cn: this.resetPasswordCn}).request()
@@ -137,37 +131,35 @@ export default {
     },
 
     handleClick(row) {
-      this.$confirm('此操作将永久删除该用户?', '提示', {
+      this.$confirm('此操作将永久删除该接口?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }).then(() => {
-        UserApi.deleteUser({cn: row.user_name}).then(() => {
-              this.getList();
+        PowerApi.deleteApi({id: row.id}).then(() => {
+              this.getPowerList();
               Message({
-                message: "删除用户成功",
+                message: "删除接口成功",
                 type: "success",
                 offset: 100,
-                duration: 3500,
+                duration: 3000,
               });
-
             }
         ).catch(error => {
           console.log(error);
         });
-
       }).catch(() => {
       });
 
     },
-    getList() {
+    getPowerList() {
       this.isLoading = true;
       let params = {
         search_name: this.searchContent,
         page: this.pagination.page,
         page_size: this.pagination.page_size
       };
-      UserApi.getUserList(params).request().then(
+      PowerApi.getPowerInfoList(params).request().then(
           res => {
             const {items = [], total_count} = res.data;
             this.tableData = items;
@@ -178,29 +170,47 @@ export default {
         this.isLoading = false;
       });
     },
+
+
+    editApiInfo(form, loading, done) {
+      PowerApi.editApiInfo(form).request().then(() => {
+        done();
+        this.getPowerList();
+        Message({
+          message: "更新接口信息成功",
+          type: "success",
+          offset: 100,
+          duration: 3000,
+        });
+      }).catch(error => {
+        console.log(error);
+        loading();
+      });
+    },
+
     changePage({page, limit}) {
       this.pagination.page = page;
       this.pagination.page_size = limit;
-      this.getList();
+      this.getPowerList();
     },
-    createAccount(form, loading, done) {
-      UserApi.createAccount(form).request()
+    createApi(form, loading, done) {
+      PowerApi.createApi(form).request()
           .then(() => {
             done();
-            this.getList();
+            this.getPowerList();
             this.$message.success('创建成功');
           }).catch(() => {
         loading();
       });
     },
-    searchUser() {
-      this.getList();
+    searchPower() {
+      this.getPowerList();
     }
 
   },
 
   created() {
-    // this.getList();
+    this.getPowerList();
   }
 };
 </script>

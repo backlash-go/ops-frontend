@@ -9,7 +9,6 @@
           :model="editUserInfoForm"
           :rules="editUserInfoFormRules">
 
-
         <el-form-item label-width="120px" label="全名" prop="display_name">
           <el-input v-model="editUserInfoForm.display_name" placeholder="席贤斌"></el-input>
         </el-form-item>
@@ -148,7 +147,6 @@ export default {
           this.editUserInfoForm.employee_type = res.data.employee_type.split(",");
           this.editUserInfoForm.mail = res.data.email;
           this.editUserInfoForm.role = res.data.role;
-
         }).catch(error => console.log(error));
       });
     }

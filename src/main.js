@@ -28,7 +28,7 @@ import '@/core/element-ui-use';
 //vue-ls
 import '@/core/use.js';
 
-new Vue({
+export const app = new Vue({
   router,
   store,
   render: h => h(App)

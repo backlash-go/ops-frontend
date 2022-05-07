@@ -9,6 +9,9 @@ import {ACCESS_TOKEN} from "@/store/mutation-types.js";
 import Vue from 'vue';
 
 
+import router from '@/router/index.js';
+
+
 const service = axios.create(
   {
     baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -45,12 +48,12 @@ service.interceptors.response.use(
         message: message,
         type: "warning",
         offset: 100,
-        duration: 2800,
+        duration: 1700,
         onClose: () => {
-          store.dispatch('user/logout')
-            .then(() => {
-              window.location.reload()
-            })
+          // router.push(`/login?redirect=${router.currentRoute.fullPath}`);
+          store.dispatch('user/delInfo');
+          router.push(`/login?redirect=${router.currentRoute.fullPath}`);
+
         }
       });
     } else if (code >= 30001 && code <= 30020) {
@@ -66,5 +69,5 @@ service.interceptors.response.use(
 );
 
 
-export default service
+export default service;
 

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-dialog title="确认删除?" :visible.sync="isShowDialog" width="30%">
+    <el-dialog title="重置用户密码" :visible.sync="isShowDialog" width="30%">
 
 
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleResetPasswordForm" label-width="100px"
                class="demo-ruleForm">
-        <el-form-item label="密码" prop="pass">
+        <el-form-item label="新密码" prop="password">
           <el-input type="password" v-model.trim="ruleForm.password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">

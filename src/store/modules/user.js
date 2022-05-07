@@ -61,7 +61,6 @@ const actions = {
         .then(({data}) => {
           const token = Vue.ls.get(ACCESS_TOKEN);
           commit('SET_TOKEN', token);
-
           commit('SET_ID', data.user_id);
           commit('SET_NAME', data.user_name);
           commit('SET_ROLES', data.role);
@@ -71,8 +70,15 @@ const actions = {
         reject(error);
       });
     }));
-  }
-
+  },
+  delInfo({commit}) {
+    commit('SET_TOKEN', '');
+    commit('SET_ROLES', []);
+    commit('SET_ID', '');
+    commit('SET_NAME', '');
+    commit('SET_EMAIL', '');
+    Vue.ls.remove(ACCESS_TOKEN);
+  },
 
 };
 
