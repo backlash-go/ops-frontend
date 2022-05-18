@@ -7,6 +7,12 @@ class PowerApi {
     return reqGet('/api/permission/list-info', params);
   }
 
+
+
+  getPowerInfo(params = {}) {
+    return reqGet('/api/permission/info', params);
+  }
+
   createApi(data) {
     return reqPost('/api/permission/create', data);
   }

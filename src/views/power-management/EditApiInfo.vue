@@ -112,15 +112,11 @@ export default {
     getModifyApiInfo() {
       this.$nextTick(() => {
         let data = {id: this.permissionId};
-        PowerApi.getPowerInfoList(data).request().then((res) => {
-          let result = res.data.items.filter(item => item.id === this.permissionId)[0];
+        PowerApi.getPowerInfo(data).request().then((res) => {
+          let result = res.data;
           this.editApiInfoForm.api = result.api;
           this.editApiInfoForm.name = result.name;
-          if (result.role){
-            this.editApiInfoForm.role = result.role.split(",");
-          }else {
-            this.editApiInfoForm.role = result.role
-          }
+          this.editApiInfoForm.role = result.role.split(',');
 
         }).catch(error => console.log(error));
       });
